@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our Chat Memories ♡</title>
+<meta name="description" content="A little collection of our chats, laughs, and special moments.">
+<style>
+:root{--bg:#070914;--panel:#101426;--line:#292d49;--pink:#f29bd0;--lav:#d9c7ff;--muted:#b9b7d9}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:#f8f5ff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:inherit}.nav{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;border-bottom:1px solid #29233c;background:#080a15;position:sticky;top:0;z-index:5}
+.brand{font-family:"Brush Script MT",cursive;font-style:italic;font-size:26px;color:#fff;text-decoration:none}.brand span{color:var(--pink);margin-right:10px}
+.navlinks{display:flex;gap:30px}.navlinks a{text-decoration:none;color:#d6d1e8;font-size:14px}.navlinks a:hover{color:var(--pink)}
+.hero{position:relative;overflow:hidden;text-align:center;padding:65px 20px 62px;background:radial-gradient(ellipse at 50% 25%,#272047 0%,#101124 42%,#070914 80%)}
+.hero:before{content:"✧  ·      ˚       ✦       ·      ˚       ♡       ·       ✧";position:absolute;inset:20px 0 auto;color:#d7b7ff;letter-spacing:15px;opacity:.65;font-size:15px;pointer-events:none}
+.hero h1{font-family:"Brush Script MT",cursive;font-style:italic;font-size:clamp(42px,6vw,66px);font-weight:500;line-height:1.06;margin:0 auto 18px;max-width:800px;color:var(--lav)}
+.heartline{color:var(--pink);font-size:25px;margin:10px 0}.hero p{max-width:550px;margin:20px auto 24px;color:#d2ccef;line-height:1.65}
+.primary{display:inline-block;background:var(--pink);color:#171025;padding:15px 27px;border-radius:999px;text-decoration:none;font-weight:700;border:0;cursor:pointer;box-shadow:0 6px 24px #f29bd022}.smallnote{font-size:12px!important;color:#c4b7dd!important;margin-top:12px!important}
+section{padding:40px 5% 20px;max-width:1500px;margin:auto}.sectionhead{text-align:center;margin-bottom:28px}.sectionhead h2{font-family:"Brush Script MT",cursive;font-style:italic;font-size:36px;font-weight:500;margin:0 0 8px;color:var(--lav)}.sectionhead h2 span{color:var(--pink);font-family:inherit;font-size:23px}.sectionhead p{color:var(--muted);margin:0}
+.toolbar{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin:20px 0 26px}.upload{display:inline-flex;align-items:center;gap:8px;padding:11px 17px;border:1px solid #6d527d;border-radius:12px;color:#f9d8ef;background:#181329;cursor:pointer;font-size:14px}.upload:hover{border-color:var(--pink)}input[type=file]{display:none}.hint{font-size:12px;color:#a8a3c7;text-align:center;width:100%}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.card{overflow:hidden;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,#111629,#0c1020);transition:transform .2s,border-color .2s}.card:hover{transform:translateY(-4px);border-color:#9a6a9d}.shot{height:245px;background:#080b14;display:flex;align-items:center;justify-content:center;overflow:hidden}.shot img{width:100%;height:100%;object-fit:contain;display:block}.placeholder{padding:24px;text-align:center;color:#8f8ba9;font-size:14px}.placeholder b{display:block;color:#d8c7f1;margin-bottom:8px;font-size:26px}.cardbody{padding:14px 15px 16px}.cardbody h3{font-size:15px;margin:0 0 7px;font-weight:650}.cardbody p{margin:0;color:#a8a5c7;font-size:13px;line-height:1.5}.date{color:var(--pink)!important;font-size:12px!important;margin-top:8px!important}
+.about{text-align:center;padding:45px 20px 55px}.about h2{font-family:"Brush Script MT",cursive;font-style:italic;color:var(--lav);font-size:30px;font-weight:500}.about p{color:#bdb7d9;font-size:13px;line-height:1.7;max-width:580px;margin:auto}.footer{text-align:center;padding:18px;color:#77748f;font-size:12px;border-top:1px solid #1c1d32}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.navlinks{gap:14px}}
+@media(max-width:560px){.nav{padding:0 4%;height:58px}.brand{font-size:21px}.navlinks{gap:12px}.navlinks a{font-size:12px}.navlinks a:nth-child(4){display:none}.hero{padding:58px 18px 45px}.grid{grid-template-columns:1fr}.shot{height:300px}section{padding-left:4%;padding-right:4%}.sectionhead h2{font-size:31px}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="#home"><span>♡</span>Our Chat Memories</a>
+  <nav class="navlinks" aria-label="Main navigation">
+    <a href="#home">Home</a><a href="#moments">Moments</a><a href="#gallery">Gallery</a><a href="#about">About</a>
+  </nav>
+</header>
+<main>
+  <section class="hero" id="home" style="max-width:none">
+    <h1>Every message,<br>a special moment</h1>
+    <div class="heartline">━━━━ ♡ ━━━━</div>
+    <p>A little collection of our chats, our laughs, our late nights,<br>and everything in between…</p>
+    <a class="primary" href="#moments">♡ &nbsp; View Our Moments</a>
+    <p class="smallnote">Add your chat screenshots below to make this page yours.</p>
+  </section>
+  <section id="moments">
+    <div class="sectionhead"><h2><span>♡</span> &nbsp; Our Special Moments &nbsp; <span>♡</span></h2><p>Little pieces of our story, saved in one place.</p></div>
+    <div class="toolbar">
+      <label class="upload" for="screenshots">＋ Add chat screenshots</label>
+      <input id="screenshots" type="file" accept="image/*" multiple>
+      <button class="upload" id="clearUploads" type="button">Clear preview uploads</button>
+      <div class="hint">Choose screenshots from your device to preview them on this page. They are not uploaded to a server.</div>
+    </div>
+    <div class="grid" id="gallery">
+      <!-- Put image files in the images folder and add cards like the examples below.
+           Example: <article class="card"><div class="shot"><img src="images/moment-1.jpg" alt="Chat memory"></div><div class="cardbody"><h3>Our first late-night chat</h3><p>A little moment I want to keep.</p><p class="date">May 10, 2026</p></div></article> -->
+      <article class="card">
+        <div class="shot"><img src="images/moment-1.jpg" alt="Chat memory one" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="placeholder" style="display:none"><b>♡</b>Add images/moment-1.jpg</div></div>
+        <div class="cardbody"><h3>Our little moments</h3><p>Some conversations deserve to be kept forever.</p><p class="date">A memory to remember</p></div>
+      </article>
+      <article class="card">
+        <div class="shot"><img src="images/moment-2.jpg" alt="Chat memory two" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="placeholder" style="display:none"><b>✧</b>Add images/moment-2.jpg</div></div>
+        <div class="cardbody"><h3>The conversations</h3><p>Little words that made an ordinary day special.</p><p class="date">A memory to remember</p></div>
+      </article>
+      <article class="card">
+        <div class="shot"><img src="images/moment-3.jpg" alt="Chat memory three" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="placeholder" style="display:none"><b>♡</b>Add images/moment-3.jpg</div></div>
+        <div class="cardbody"><h3>Saved with love</h3><p>A tiny screenshot, a big memory.</p><p class="date">A memory to remember</p></div>
+      </article>
+      <article class="card">
+        <div class="shot"><img src="images/moment-4.jpg" alt="Chat memory four" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="placeholder" style="display:none"><b>✦</b>Add images/moment-4.jpg</div></div>
+        <div class="cardbody"><h3>And many more…</h3><p>Our story, one message at a time.</p><p class="date">To be continued ♡</p></div>
+      </article>
+    </div>
+  </section>
+  <section class="about" id="about">
+    <h2>Thank you for being you ♡</h2>
+    <p>This little website is a reminder that even the smallest messages can become meaningful memories. Here's to all the moments we've shared—and the ones still waiting for us.</p>
+  </section>
+</main>
+<footer class="footer">Made with ♡, just for us.</footer>
+<script>
+const input = document.getElementById('screenshots');
+const gallery = document.getElementById('gallery');
+const clearBtn = document.getElementById('clearUploads');
+let objectUrls = [];
+input.addEventListener('change', () => {
+  for (const url of objectUrls) URL.revokeObjectURL(url);
+  objectUrls = [];
+  gallery.querySelectorAll('[data-uploaded="true"]').forEach(el => el.remove());
+  const files = [...input.files].filter(f => f.type.startsWith('image/'));
+  files.forEach((file, index) => {
+    const url = URL.createObjectURL(file); objectUrls.push(url);
+    const card = document.createElement('article'); card.className = 'card'; card.dataset.uploaded = 'true';
+    const shot = document.createElement('div'); shot.className = 'shot';
+    const img = document.createElement('img'); img.src = url; img.alt = 'Uploaded chat screenshot ' + (index + 1);
+    shot.appendChild(img);
+    const body = document.createElement('div'); body.className = 'cardbody';
+    const title = document.createElement('h3'); title.textContent = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+    const desc = document.createElement('p'); desc.textContent = 'A moment worth keeping ♡';
+    const date = document.createElement('p'); date.className = 'date'; date.textContent = 'Our memory';
+    body.append(title, desc, date); card.append(shot, body); gallery.prepend(card);
+  });
+  if (files.length) document.getElementById('moments').scrollIntoView({behavior:'smooth'});
+});
+clearBtn.addEventListener('click', () => {
+  for (const url of objectUrls) URL.revokeObjectURL(url);
+  objectUrls = []; input.value = '';
+  gallery.querySelectorAll('[data-uploaded="true"]').forEach(el => el.remove());
+});
+</script>
+</body>
+</html>
