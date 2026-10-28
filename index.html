@@ -75,34 +75,250 @@ section{padding:40px 5% 20px;max-width:1500px;margin:auto}.sectionhead{text-alig
 </main>
 <footer class="footer">Made with ♡, just for us.</footer>
 <script>
+const WORKER_URL = 'https://shy-sky-2cef.minorthedark.workers.dev';
+const GITHUB_API =
+  'https://api.github.com/repos/vnce-debug/Our-Love/contents/images';
+
 const input = document.getElementById('screenshots');
 const gallery = document.getElementById('gallery');
 const clearBtn = document.getElementById('clearUploads');
+const hint = document.querySelector('.hint');
+
+let uploadPassword = '';
 let objectUrls = [];
-input.addEventListener('change', () => {
-  for (const url of objectUrls) URL.revokeObjectURL(url);
-  objectUrls = [];
-  gallery.querySelectorAll('[data-uploaded="true"]').forEach(el => el.remove());
-  const files = [...input.files].filter(f => f.type.startsWith('image/'));
-  files.forEach((file, index) => {
-    const url = URL.createObjectURL(file); objectUrls.push(url);
-    const card = document.createElement('article'); card.className = 'card'; card.dataset.uploaded = 'true';
-    const shot = document.createElement('div'); shot.className = 'shot';
-    const img = document.createElement('img'); img.src = url; img.alt = 'Uploaded chat screenshot ' + (index + 1);
-    shot.appendChild(img);
-    const body = document.createElement('div'); body.className = 'cardbody';
-    const title = document.createElement('h3'); title.textContent = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
-    const desc = document.createElement('p'); desc.textContent = 'A moment worth keeping ♡';
-    const date = document.createElement('p'); date.className = 'date'; date.textContent = 'Our memory';
-    body.append(title, desc, date); card.append(shot, body); gallery.prepend(card);
+
+function showMessage(message) {
+  hint.textContent = message;
+}
+
+function formatTitle(filename) {
+  return filename
+    .replace(/\.[^.]+$/, '')
+    .replace(/^\d+-/, '')
+    .replace(/[-_]/g, ' ');
+}
+
+function createCard(filename, imageUrl) {
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.dataset.savedImage = 'true';
+
+  const shot = document.createElement('div');
+  shot.className = 'shot';
+
+  const img = document.createElement('img');
+  img.src = imageUrl;
+  img.alt = formatTitle(filename);
+  img.loading = 'lazy';
+  shot.appendChild(img);
+
+  const body = document.createElement('div');
+  body.className = 'cardbody';
+
+  const title = document.createElement('h3');
+  title.textContent = formatTitle(filename);
+
+  const desc = document.createElement('p');
+  desc.textContent = 'A moment worth keeping ♡';
+
+  const date = document.createElement('p');
+  date.className = 'date';
+  date.textContent = 'Saved in our memories ♡';
+
+  body.append(title, desc, date);
+  card.append(shot, body);
+  return card;
+}
+
+async function loadSavedImages() {
+  try {
+    const response = await fetch(GITHUB_API, {
+      headers: { Accept: 'application/vnd.github+json' },
+      cache: 'no-store'
+    });
+
+    if (response.status === 404) {
+      showMessage('No saved images yet. Add your first screenshot ♡');
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error('Could not load the GitHub gallery.');
+    }
+
+    const files = await response.json();
+
+    const images = files
+      .filter(file =>
+        file.type === 'file' &&
+        /\.(jpe?g|png|webp|gif|avif)$/i.test(file.name)
+      )
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    if (!images.length) {
+      showMessage('No saved images yet. Add your first screenshot ♡');
+      return;
+    }
+
+    // Replace the example cards with the images saved in GitHub.
+    gallery.replaceChildren();
+
+    for (const file of images) {
+      gallery.appendChild(createCard(file.name, file.download_url));
+    }
+
+    showMessage(`${images.length} saved memories ♡`);
+  } catch (error) {
+    console.error(error);
+    showMessage(
+      'Could not load saved images. Check your internet connection and try refreshing.'
+    );
+  }
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const result = reader.result;
+      resolve(result.substring(result.indexOf(',') + 1));
+    };
+
+    reader.onerror = () => reject(new Error('Could not read this image.'));
+    reader.readAsDataURL(file);
   });
-  if (files.length) document.getElementById('moments').scrollIntoView({behavior:'smooth'});
+}
+
+function extensionFor(file) {
+  const extensions = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/webp': 'webp',
+    'image/gif': 'gif',
+    'image/avif': 'avif'
+  };
+
+  return extensions[file.type] || null;
+}
+
+async function uploadImage(file, password) {
+  const extension = extensionFor(file);
+
+  if (!extension) {
+    throw new Error(
+      `${file.name}: use JPG, PNG, WEBP, GIF or AVIF.`
+    );
+  }
+
+  if (file.size > 4 * 1024 * 1024) {
+    throw new Error(`${file.name}: the maximum size is 4 MB.`);
+  }
+
+  const content = await fileToBase64(file);
+
+  // Timestamp-based names avoid overwriting previous uploads.
+  const filename = `${Date.now()}-${crypto.randomUUID()}.${extension}`;
+
+  const response = await fetch(WORKER_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${password}`
+    },
+    body: JSON.stringify({
+      filename,
+      content,
+      mimeType: file.type
+    })
+  });
+
+  let result;
+
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error('The upload server returned an unexpected response.');
+  }
+
+  if (!response.ok || !result.success) {
+    if (response.status === 401) {
+      uploadPassword = '';
+    }
+
+    throw new Error(result.error || `Upload failed (${response.status}).`);
+  }
+}
+
+input.addEventListener('change', async () => {
+  const files = [...input.files];
+  input.value = '';
+
+  if (!files.length) return;
+
+  const images = files.filter(file => file.type.startsWith('image/'));
+
+  if (!images.length) {
+    showMessage('Please choose image files.');
+    return;
+  }
+
+  if (!uploadPassword) {
+    uploadPassword = prompt('Enter your private upload password:') || '';
+  }
+
+  if (!uploadPassword) {
+    showMessage('Upload cancelled. Your images have not been uploaded.');
+    return;
+  }
+
+  input.disabled = true;
+  clearBtn.disabled = true;
+
+  let successful = 0;
+
+  try {
+    for (let i = 0; i < images.length; i++) {
+      showMessage(`Uploading image ${i + 1} of ${images.length}…`);
+
+      try {
+        await uploadImage(images[i], uploadPassword);
+        successful++;
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
+      }
+    }
+
+    if (successful > 0) {
+      showMessage(
+        `${successful} image(s) saved to GitHub! Refreshing gallery…`
+      );
+
+      // GitHub Pages may take a short time to publish new files.
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      await loadSavedImages();
+    } else {
+      showMessage('No images were uploaded successfully.');
+    }
+  } finally {
+    input.disabled = false;
+    clearBtn.disabled = false;
+  }
 });
+
 clearBtn.addEventListener('click', () => {
   for (const url of objectUrls) URL.revokeObjectURL(url);
-  objectUrls = []; input.value = '';
-  gallery.querySelectorAll('[data-uploaded="true"]').forEach(el => el.remove());
+  objectUrls = [];
+
+  // Clear only temporary previews, not saved GitHub images.
+  gallery.querySelectorAll('[data-preview="true"]').forEach(card => card.remove());
+
+  showMessage('Temporary previews cleared. Saved GitHub images remain.');
 });
+
+// Load saved images whenever the page opens.
+loadSavedImages();
 </script>
 </body>
 </html>
